@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - OPENAI_API_KEY=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
+      - es_cloud_id=LeitlinienGPT:ZXUtY2VudHJhbC0xLmF3cy5jbG91ZC5lcy5pbzo0NDMkYjQ2M2U4MmFhMTU3NDk0MWE2YTZlMjkxNzRmY2FjYjYkNzJlMDU1NzEyZjM5NDU3NTgxNTUyZDFlODFiMDE0YmY=
+      - es_user=enterprise_search
+      - es_password=-VwsG8mt-TELfRQ
+      - SUPABASE_URL = https://sqaftyuxjuxotwopynwt.supabase.co
+      - SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxYWZ0eXV4anV4b3R3b3B5bnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5OTk5NzIsImV4cCI6MjAxNjU3NTk3Mn0.TK2220ZQ0cFe_1_bpAfkH2Kpg93i0OAlNyGTqfl8FxM
+      - PINECONE_API_KEY=910ba215-c358-45e8-97be-b80e87d82cf1
+      - CHOKIDAR_USEPOLLING=true # Helps with file watching in some environments
+      - HOST=0.0.0.0
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
