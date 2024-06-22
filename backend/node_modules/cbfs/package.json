@@ -1,0 +1,15 @@
+{
+  "name": "cbfs",
+  "version": "0.1.0",
+  "description": "将原生的fs模块进行promise封装,可以方便await开发",
+  "main": "cbfs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fs",
+    "promise封装"
+  ],
+  "author": "masstroops",
+  "license": "ISC"
+}

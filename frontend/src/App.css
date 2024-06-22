@@ -1,0 +1,36 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.chat-layout {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%; /* Adjust the width as necessary */
+  overflow-y: auto; /* If you want scrolling */
+}
+
+.right-side {
+  flex-basis: 50%; /* Adjust the width as necessary */
+  overflow-y: auto; /* If you want scrolling */
+}
+
+/* Style for the menu button */
+.menu-button {
+  /* Add your styles here */
+}
+
+/* Media query for tablets and up */
+@media (min-width: 768px) {
+  .App {
+    flex-direction: row; /* Horizontal layout for larger devices */
+  }
+}

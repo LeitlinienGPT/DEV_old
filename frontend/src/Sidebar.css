@@ -1,0 +1,23 @@
+
+/* ... existing styles ... */
+
+.sidebar-section a {
+  color: #0066cc; /* Change the color to match your design */
+  text-decoration: none; /* Adjust as needed */
+}
+
+.sidebar-section a:hover {
+  text-decoration: underline; /* Adjust as needed */
+}
+
+.sidebar-section ol {
+  padding-left: 20px; /* Indent ordered list */
+}
+
+.sidebar-section li {
+  margin-bottom: 10px; /* Space between list items */
+}
+
+/* ... additional styles ... */
+
+/* You may need to adjust font sizes, colors, and spacing to match your design precisely. */

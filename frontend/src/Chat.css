@@ -1,0 +1,46 @@
+/* Center the chat header content */
+.chat-header {
+  /* determines the space around the chat-header so around the title*/
+  flex-grow: .5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center in the available space */
+  align-items: center; /* Horizontally center */
+  margin-bottom: 0; /* Remove bottom margin if any */
+  /* height: 20px; */
+}
+
+/* chat input box where i type the input */
+.chat {
+  font-family: 'Arial', sans-serif;
+  height: calc(100vh - 100px); /* Adjust if you have headers or footers */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  margin-left: auto; /* Add margin to the left */
+  margin-right: auto; /* Add margin to the right */
+  max-width: 600px; /* Or whatever maximum width you prefer */
+  width: 100%; /* It will take the full width up to max-width */
+  box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+.chat-dropdown-container {
+  /* Styles for the dropdown container */
+  padding: 0.5rem; /* Example padding */
+  border: 1px solid #D0D0D0; /* Example border */
+  margin-bottom: 1rem; /* Space before the chat input area */
+  margin-top: 0; /* Remove top margin if any */
+  width: 100%; /* Full width */
+  box-sizing: border-box;
+}
+
+/* This is where I actually type in the question */
+.chat-input-container {
+  width: 100%; /* Full width */
+  display: flex;
+  justify-content: center; /* Center the input form */
+  /* Space to the next Element so that would be the Question card */
+  padding-bottom: .2rem; /* Space from the bottom */
+}
+
+
