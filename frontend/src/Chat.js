@@ -30,13 +30,19 @@ const Chat = ({ addMessage, setMessages, messages }) => {
       try {
         // Log before sending the request
         console.log('Sending request to:', requestUrl);
+
+        // Log the body before sending the request (unformatted)
+        console.log('Sending request body (unformatted):', JSON.stringify({ question: input.trim() }));
+
+        // Log the body before sending the request (formatted)
+        console.log('Sending request body (formatted):', JSON.stringify({ question: input.trim() }, null, 2));
   
         const response = await fetch(requestUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', // Sending as JSON
           },
-          body: JSON.stringify({ question: input.trim() }),
+          body: JSON.stringify({ question: input.trim() }), // JSON body
         });
   
         // Log the HTTP response status
@@ -61,6 +67,7 @@ const Chat = ({ addMessage, setMessages, messages }) => {
       }
     }
   };
+
   const handleClearChat = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/clear_history`, {
@@ -74,14 +81,18 @@ const Chat = ({ addMessage, setMessages, messages }) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
   
-      // This response is just to confirm the action, you might not need to do anything with it
       const data = await response.json();
       console.log(data.message); // "History cleared"
   
-      setMessages([]); // Assuming setMessages is the function from useState in your parent component
+      setMessages([]); 
     } catch (error) {
       console.error('Error clearing the chat history:', error);
     }
+  };
+
+  const testSubmit = () => {
+    const testInput = "Adipositas Kinder Leitlinie";
+    handleSubmit({ preventDefault: () => {}, target: { value: testInput } });
   };
 
   return (
@@ -98,7 +109,7 @@ const Chat = ({ addMessage, setMessages, messages }) => {
         sx={{
           marginY: 2,
           width: '100%',
-          color: 'black', // Ensuring text is dark for better contrast
+          color: 'black', 
         }}
       >
         <Option value="Alle AMWF Leitlinien">Alle AMWF Leitlinien</Option>
@@ -107,6 +118,7 @@ const Chat = ({ addMessage, setMessages, messages }) => {
       
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'space-between', variant: "soft"}}>
         <Button variant="solid" sx={{ marginY: 2 }} onClick={handleClearChat}>Chat Leeren</Button>
+        <Button variant="solid" sx={{ marginY: 2 }} onClick={testSubmit}>Test Submit</Button> 
       </Box>  
 
       <Box component="form" className="chat-input-container" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 2 }}>
