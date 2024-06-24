@@ -3,13 +3,13 @@ import './Chat.css';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Textarea from '@mui/joy/Textarea';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
+// import Select from '@mui/joy/Select'; // Commented out Select import
+// import Option from '@mui/joy/Option'; // Commented out Option import
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading indicator
 
 const Chat = ({ addMessage, setMessages, messages }) => {
   const [input, setInput] = useState('');
-  const [dropdownValue, setDropdownValue] = useState('');
+  // const [dropdownValue, setDropdownValue] = useState(''); // Commented out dropdown state
   const [isSubmitting, setIsSubmitting] = useState(false); // State to track if a request is being processed
 
   const handleSubmit = async (event) => {
@@ -90,18 +90,14 @@ const Chat = ({ addMessage, setMessages, messages }) => {
     }
   };
 
-  const testSubmit = () => {
-    const testInput = "Adipositas Kinder Leitlinie";
-    handleSubmit({ preventDefault: () => {}, target: { value: testInput } });
-  };
-
   return (
     <Box className="chat"> 
       <div className="chat-header">
         <h2>LeitlinienGPT</h2>
       </div>
       
-      <Select
+      {/* Commented out the Select and Option components */}
+      {/* <Select
         value={dropdownValue}
         onChange={(event, value) => setDropdownValue(value)}
         placeholder="Wähle eine Option aus"
@@ -114,11 +110,10 @@ const Chat = ({ addMessage, setMessages, messages }) => {
       >
         <Option value="Alle AMWF Leitlinien">Alle AMWF Leitlinien</Option>
         <Option value="Nur aktuell gültige Leitlinien">Nur aktuell gültige Leitlinien</Option>
-      </Select>
+      </Select> */}
       
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'space-between', variant: "soft"}}>
         <Button variant="solid" sx={{ marginY: 2 }} onClick={handleClearChat}>Chat Leeren</Button>
-        <Button variant="solid" sx={{ marginY: 2 }} onClick={testSubmit}>Test Submit</Button> 
       </Box>  
 
       <Box component="form" className="chat-input-container" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 2 }}>

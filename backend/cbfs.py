@@ -55,7 +55,6 @@ Only base your response on the context.
 The answer should not exceed 8 sentences.
 context: {context}
 question: {question}
-answer in spanish
 :"""
 prompt = PromptTemplate.from_template(template)
 
@@ -94,7 +93,7 @@ class cbfs(param.Parameterized):
         try:
             # Run the query through the chatbot chain
             result = self.qa({"question": query, "chat_history": self.chat_history})
-            print("Result from self.qa:", result)
+            # print("Result from self.qa:", result)
         except Exception as e:
             print(f"Error in self.qa call: {e}")
             # You might want to return an error response here

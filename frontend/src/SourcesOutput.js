@@ -5,27 +5,35 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Link from '@mui/joy/Link';
 import Button from '@mui/joy/Button';
-import Skeleton from '@mui/joy/Skeleton'; // Import Skeleton
+import Skeleton from '@mui/joy/Skeleton';
 
-const SourcesOutput = ({ sourceDocuments, isLoading }) => { 
+const SourcesOutput = ({ sourceDocuments, isLoading }) => {
   const [showContentStates, setShowContentStates] = useState(Array(sourceDocuments.length).fill(false));
-  
+
   // Print raw data for debugging
-  console.log("Raw sourceDocuments:", sourceDocuments); 
-  console.log("Type of sourceDocuments:", typeof sourceDocuments); 
+  console.log("Raw sourceDocuments:", sourceDocuments);
+  console.log("Type of sourceDocuments:", typeof sourceDocuments);
 
   const formatTitleAndExtractRegisterNumber = (title) => {
-    console.log("Title:", title)
+    console.log("Title:", title);
     const parts = title.split('_');
-    console.log("title parts:", parts)
+    console.log("title parts:", parts);
+
+    // Extract Registernummer
     let registerNumber = parts[0];
     if (registerNumber && registerNumber.length >= 6) {
       registerNumber = `${registerNumber.substring(0, 3)}-${registerNumber.substring(4, 7)}`;
     } else {
       registerNumber = "Unbekannt";
     }
-    const formattedTitle = parts.slice(2).join(', ').replace(/-/g, ' ');
-    return { formattedTitle, registerNumber };
+
+    // Extract Entwicklungsstufe
+    const entwicklungsstufe = parts[1];
+
+    // Extract title (everything after the second underscore), preserving hyphens
+    const formattedTitle = parts.slice(2).join(' '); 
+
+    return { formattedTitle, registerNumber, entwicklungsstufe };
   };
 
   const renderValidityButton = (validity) => {
@@ -62,47 +70,54 @@ const SourcesOutput = ({ sourceDocuments, isLoading }) => {
 
   const renderSourceDocuments = () => {
     return sourceDocuments.map((doc, index) => {
-      const { formattedTitle, registerNumber } = formatTitleAndExtractRegisterNumber(doc.metadata.Source.split('/').pop().replace('.pdf', '')); 
-      const awmfRegisterUrl = registerNumber !== "Unbekannt" 
+      const { formattedTitle, registerNumber, entwicklungsstufe } = formatTitleAndExtractRegisterNumber(doc.metadata.Source.split('/').pop().replace('.pdf', ''));
+      const awmfRegisterUrl = registerNumber !== "Unbekannt"
         ? `https://register.awmf.org/de/leitlinien/detail/${registerNumber}`
         : null;
 
+      // Handle multiple pages
+      const pages = Array.isArray(doc.metadata.Page) ? doc.metadata.Page.join(', ') : doc.metadata.Page;
+
       return (
         <div key={index} style={{ marginBottom: '1rem' }}>
-          {/*  Gültigkeit is now removed */}
-          {doc.metadata.Registernummer && ( // Only render if Registernummer exists
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Registernummer:</Typography>
-              {awmfRegisterUrl 
-                ? <Link href={awmfRegisterUrl} target="_blank" variant="outlined">
-                    {doc.metadata.Registernummer}
-                  </Link>
-                : <span>{doc.metadata.Registernummer}</span>
-              }
-            </div>
-          )}
-          {doc.metadata.Datenbank && ( // Only render if Datenbank exists
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Datenbank:</Typography>
-              <span>{doc.metadata.Datenbank}</span>
-            </div>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Gültigkeit:</Typography>
+            {renderValidityButton(doc.metadata.Gültigkeit)} {/* Gültigkeit button added back */}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Entwicklungsstufe:</Typography>
+            <span>{entwicklungsstufe}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Registernummer:</Typography>
+            {awmfRegisterUrl
+              ? <Link href={awmfRegisterUrl} target="_blank" variant="outlined">
+                  {registerNumber}
+                </Link>
+              : <span>{registerNumber}</span>
+            }
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
             <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Titel:</Typography>
-            <span>{doc.metadata.Source}</span> {/* Use source directly as the title */}
+            <span>{formattedTitle}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
             <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Seite (im PDF):</Typography>
-            <span>{doc.metadata.Page}</span> {/* Use Page directly */}
+            <span>{pages}</span> 
           </div>
-          {/*  Content section removed for now */}
-          {/* <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+          {doc.metadata.Fachgesellschaft && (
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Fachgesellschaften:</Typography>
+              <span>{doc.metadata.Fachgesellschaft.join(', ')}</span> 
+            </div>
+          )}
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
             <Typography fontWeight="bold" component="span" style={{ marginRight: '0.5rem' }}>Inhalt:</Typography>
             <Button onClick={() => toggleShowContent(index)} variant="outlined" size="small">
               Mehr Informationen
             </Button>
           </div>
-          {showContentStates[index] && <div style={{ marginTop: '0.5rem' }}>{doc.page_content}</div>} */}
+          {showContentStates[index] && <div style={{ marginTop: '0.5rem' }}>{doc.page_content}</div>}
           <hr />
         </div>
       );
